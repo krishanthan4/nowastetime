@@ -1,0 +1,51 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="styles/settings.css"/>
+        <script src="scripts/jquery-1.7.1.min.js"></script>
+        <script src="scripts/extension.js"></script>
+        <script src="scripts/popover.js"></script>
+        <title>WasteNoTime <span translate="yes">Status</span></title>
+    </head>
+    <body class="popover">
+        <p class="close" id="closeBtn">[x] <span translate="yes">Close</span></p>
+        <h2 class='title'>WasteNoTime</h2>
+        <hr class="popover" align="left"/>
+        <div class="timeRemaining">
+            <p>
+                <span id="quotaTypeGlobal" translate="yes">Time Remaining - Global Quota</span>
+                <span id="quotaTypeCustom" translate="yes">Time Remaining - Site Custom Quota</span>
+            </p>
+            <div class="status timeRanges popover">
+                <ul>
+                    <li><span translate="yes">Work</span> <span class="timeDisplay effective" id="remainingtime1"></span> <span translate="yes">Non-work</span> <span class="timeDisplay effective" id="remainingtime2"></span></li>
+                </ul>
+            </div>
+            <div class="status noTimeRanges popover">
+                <ul>
+                    <li><span class="timeDisplay effective" id="remainingtime0"></span>
+                </ul>
+            </div>
+            <div class="status inLockdown popover">
+                <span translate="yes">In Lockdown until</span> <span class="timeDisplay" id="lockdownUntil"></span>
+            </div>
+            <ul>
+                <li><img src='arrow.gif' title='Current time' /> <span id="currentTime"></span></li>
+                <li class="status timeRanges"><img src='arrow.gif' title='Next Time Segment' /> <span id="nextTimeSegment"></span></li>
+            </ul>
+        </div>
+        <hr align="left"/>
+        <p>
+        <span id='currentURL'></span>
+        </p>
+        <p><span translate="yes">Site Status:</span> <b><span id="onBlockList"></span> <span id="idleness"></span> <span id="perSiteRemainingTime"></span></b></p>
+        <div id="matchedSite"></div>
+        <hr align="left"/>
+        <ul class="popover">
+            <li><a id="addSite" class="addsite" href="#"><span translate="yes">Block Site...</span></a>
+            <li><a id="timeTracker" href="#"><span translate="yes">Time Tracker</span></a>
+            <li><a id="instantLockdown" href="#"><span translate="yes">Instant Lockdown</span></a>
+            <li><a id="settings" href="#"><span translate="yes">Settings</span></a>
+        </ul>
+    </body>
+</html>

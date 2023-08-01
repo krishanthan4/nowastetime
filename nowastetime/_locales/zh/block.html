@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+        .footer {
+            font-size:0.8em;
+            font-family: Verdana, Arial, sans-serif;
+            text-align:center;
+        }
+
+        .footer a{
+            text-decoration: none;
+        }
+        .quote *{
+            font-style:oblique;
+            font-family:Book Antiqua;
+            font-size:1.2em;
+        }
+
+        .quote {
+            max-width: 500px;
+            margin:auto;
+        }
+
+        * {
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0 auto;
+            margin-top: 25px;
+            max-width:800px;
+            font-size:1.2em;
+        }
+
+        h1 {
+            font-size:3em;
+        }
+
+        .blockMessage {
+                min-height: 350px;
+        }
+
+        #blockedURL {
+            font-weight:bold;
+        }
+
+        form {
+            width: 150px;
+            margin-left: auto ;
+            margin-right: auto ;
+        }
+
+        .fb-share-button span, 
+          .fb-share-button iframe {
+            width: 120px! important;
+            height: 25px! important;
+        }
+    </style>
+
+    <script src="../../scripts/jquery-1.5.2.min.js"></script>
+    <script src="../../scripts/quotes.js"></script>
+    <script src="../../scripts/block.js"></script>
+    <title>WasteNoTime - Default Block Landing Page</title>
+  </head>
+  <body>
+      <div id="fb-root"></div>
+      <h1 align="center">您应该回去工作了！</h1>
+      <div class="blockMessage">
+          <div id="quote" class="quote">
+          </div>
+          <p>您尝试访问以下网站而被阻止的原因是它已经浪费了您太多的时间了。</p>
+              <blockquote id="blockedURL"></blockquote>
+          <p>如果您认为 WasteNoTime 浏览器扩展对您有所帮助，请捐赠10元钱以支持开发工作。非常感谢。
+              <div class="fb-share-button" data-href="https://www.facebook.com/browser.extension.wastenotime" data-layout="button_count"></div>
+          </p>
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+              <input type="hidden" name="cmd" value="_s-xclick">
+              <input type="hidden" name="hosted_button_id" value="V3CPMJD3KG7RW">
+              <input type="image" src="https://www.paypalobjects.com/zh_XC/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal——最安全便捷的在线支付方式！">
+              <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+          </form>
+      </div>
+      <hr />
+      <div class="footer">
+          <span>&#169;2020 <a href="http://www.bumblebeesystems.com">Bumblebee Systems</a></span>
+      </div>
+  </body>
+</html>

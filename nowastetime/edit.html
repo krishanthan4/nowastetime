@@ -1,0 +1,274 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="styles/settings.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/timePicker.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/jqModal.css"/>
+        <script src="scripts/jquery-1.7.1.min.js"></script>
+        <script src="scripts/jquery.sortable.min.js"></script>
+        <script src="scripts/jquery.timePicker.js"></script>
+        <script src="scripts/jqModal.js"></script>
+        <script src="scripts/extension.js"></script>
+        <script src="scripts/settings.js"></script>
+        <script src="scripts/utils.js"></script>
+        <script src="scripts/l16n.js"></script>
+        <script src="scripts/edit.js"></script>
+        <title>WasteNoTime - Edit Settings</title>
+    </head>
+    <body>
+        <h2 class='title'>WasteNoTime</h2>
+        <div class="links">
+            <span><a href="http://www.bumblebeesystems.com/wastenotime/#faq"><span translate="yes">Help/FAQ</span></a></span>
+        </div>
+        <h2 class='subtitle'><span translate="yes">Edit Settings</span></h2>
+        <hr align="left"/>
+        <div class='settingsName hidden'>
+            <span translate="yes">Blocklist Name</span> <input type="text" id="name" size="40" />
+        </div>
+        <!-- Dialog needs to be at top level -->
+        <div class="jqmWindow" id="mydialog">
+            <p><span translate="yes">When To Block This Site?</span></p>
+            <br />
+            Site:<span id="blockedSiteURL"></span>
+            <ul>
+                <li><label><input type="radio" name="blockedSiteOptions" value="useGlobal"/><span translate="yes">Use Global Time Quota</span></label>
+                <li>
+                <label><input type="radio" name="blockedSiteOptions" value="useCustom"/><span translate="yes">Use Custom Time Quota</span>
+                    <ul id='customTimeLimitSettings'>
+                        <!-- these fields need a separate validation from other allowtime fields because it may not be initialized -->
+                        <li class="timeRanges"> <span translate="yes">Within Work Hours:</span> <input type='text' id='allowtime3' size='3' /> <span translate="yes">minutes</span></li>
+                        <li class="timeRanges"> <span translate="yes">Outside Work Hours:</span> <input type='text' id='allowtime4' size='3' /> <span translate="yes">minutes</span></li>
+                        <li class="noTimeRanges"> <span translate="yes">Time Allowed Per Day:</span> <input type='text' id='allowtime5' size='3' /> <span translate="yes">minutes</span></li>
+                    </ul>
+                    <span class="errors" id="timeAllowedInDialogErrors"></span>
+                </label>
+                <li><label><input type="radio" name="blockedSiteOptions" value="alwaysBlock"/><span translate="yes">Always Block</span></label>
+            </ul>
+            <div>
+                <label><input type="checkbox" id="includeChildrenCheckbox" /><span translate="yes">Include links from this site.
+                  Time quota will be applied to visits to other sites originated from this one. It is useful for web sites like Reddit and Digg.
+                </label>
+            </div>
+            <div id="dialogButtons" align="right">
+                <input type="button" id="dialogCancelButton" value="Cancel" />
+                <input type="button" id="dialogOKButton" value="OK" />
+            </div>
+        </div>
+        <div class="jqmWindow" id="loadurl_mydialog">
+            <p><span translate="yes">Load block list from public URL</span>
+                (Here are some <a target="_blank" href="http://www.bumblebeesystems.com/wastenotime/#blocklists">samples</a>)
+            </p>
+            <input type="text" id="loadBlocklistURLInput" placeholder="http://" size="128" />
+            <div id="loadURLDialogButtons" align="right">
+                <input type="button" id="loadURLDialogCancelButton" value="Cancel" />
+                <input type="button" id="loadURLDialogOKButton" value="OK" />
+            </div>
+        </div>
+        <div id="vtab">
+            <ul>
+                <li class="timeTracker" href="#timeTracker"><span translate="yes">Time Tracker</span></li>
+                <li class="blockedSites" href="#blockedSites"><span translate="yes">Block List</span></li>
+                <li class="allowedSites" href="#allowedSites"><span translate="yes">Allow List</span></li>
+                <li class="timeAllowed" href="#timeAllowed"><span translate="yes">Time Allowed</span></li>
+                <li class="advanced" href="#advanced"><span translate="yes">Advanced Settings</span></li>
+                <li class="challenge" href="#blockedSites"><span translate="yes">Challenge</span></li>
+                <li class="importnexport" href="#blockedSites"><span translate="yes">Import/Export</span></li>
+            </ul>
+            <div class='timeTracker'>
+                <h3><span translate="yes">Time Tracker</span></h3>
+                <p><span translate="yes">Number of sites that are displayed in Time Tracker page:</span></p>
+                <ul>
+                    <li><label><input type="radio" class="numTimeTrackerSites" name="numTimeTrackerSites" value="5" /><span translate="yes">Top 5 sites</span></label>
+                    <li><label><input type="radio" class="numTimeTrackerSites" name="numTimeTrackerSites" value="10" checked="true"/><span translate="yes">Top 10 sites</span></label>
+                    <li><label><input type="radio" class="numTimeTrackerSites" name="numTimeTrackerSites" value="20" /><span translate="yes">Top 20 sites</span></label>
+                </ul>
+                <p><span translate="yes">Do not track the following site:</span>
+                <input type="text" id="do_not_track_url" size="80" />
+                <p><span translate="yes">Tip: This option is useful to exclude your home page from the time tracking results since you would likely spend a lot of time on it and it would skew the chart. You may use patterns such as "*.google.com".</span>
+                <p><span translate="yes">Remove all historical data recorded by Time Tracker and start over. Note: The time quota used for blocking purpose will not be affected.</span></p>
+                <blockquote> 
+                    <input type="button" id="resetTimeTracker" value="Reset Time Tracker"/>
+                </blockquote>
+            </div>
+            <div class='blockedSites'>
+                <h3><span translate="yes">Block List</span> </h3>
+                <p><span translate="yes">Web sites that are to be blocked.</span> (<span translate="yes">How to add sites?</span><span class='showTips'><img src='tip_16.png' /></span>)<br />
+                <span translate="yes">Click <img src="customize_16.gif" /> to customize per-site settings. Click <img src="delete_16.png" /> to remove a site from the list. You may re-order the list by drag-n-drop.</span></p>
+                <ul class="siteList sortable" id="blockedsites"></ul>
+                <p><span translate="yes">Add site(s) in the text box below or "Load from URL", then click "Add Blocked Site(s)".<br />Some examples: *.facebook.com, *.youtube.com, etc.</span>
+                <input type="button" id="loadBlocklistURLButton" name="loadBlocklistURL" value="Load from URL"/>
+                </p>
+                <div class='tiptext' id='addBlockedSitesTipText'>
+                    <p><span translate="yes">Tips</span></p>
+                    <ul class="tips">
+                        <li><span translate="yes">To block multiple sites, add one per line.</span>
+                        <li><span translate="yes">You may use asterisk as wildcard in any part of URL</span>
+                        <li><span translate="yes">Preceding http:// can be ommited if you don't want to be protocol specific.</span>
+                        <li><span translate="yes">The order of sites matters if you use per-site settings.</span>
+                        <li><span translate="yes">You may also add blocked sites using context menu while you are browsing.</span>
+                    </ul>
+                    <p><span translate="yes">Examples</span></p>
+                    <ul class="examples">
+                        <li><span translate="yes">*.foo.com matches any subdomain of "foo.com", such as finance.foo.com or news.foo.com</span>
+                        <li><span translate="yes">foo*.com matches any site that starts with "foo" and ends with ".com", such as foobar.com or foo.xyz.com</span>
+                        <li><span translate="yes">foo.*.com matches any site that starts with "foo." and ends with ".com", such as foo.com or foo.xyz.com but it doesn't match foobar.com</span>
+                        <li><span translate="yes">foo.com/path matches any url under "foo.com/path", such as foo.com/path, foo.com/path/xyz, but it doesn't match foo.com/pathxyz.</span>
+                        <li><span translate="yes">https://foo.com matches any url under HTTPS site foo.com</span>
+                        <li><span translate="yes">*/search?q=cache: matches any url that has path "search" and query string starting with "q=cache:". It effectively matches Google cache URLs.</span>
+                    </ul>
+                </div>
+                <textarea id="blockednewsites" cols="100" rows="4" wrap="off"></textarea><br />
+                <input type="button" id="addBlockedSitesButton" name="addBlockedSites" value="Add Blocked Site(s)"/>
+                <p class="errors" id="blockedsites_error"></p>
+            </div>
+            <div class='allowedSites'>
+                <h3><span translate="yes">Allow List</span> </h3>
+                <p><span translate="yes">Web sites that should be allowed, which takes precedence over Block List.</span>
+                (<span class='showTips'><img src='tip_16.png' /></span><span translate="yes">How to add sites?</span>)<br />
+                <span translate="yes">Click <img src="delete_16.png" /> to remove a site from the list.</span></p>
+                <ul class="siteList" id="allowedsites"></ul>
+                <p><span translate="yes">Add site(s) in the text box below, then click "Add Allowed Site(s)".</span><br />
+                <span translate="yes">Some examples: *.google.com, *.wsj.com, etc.</span>
+                </p>
+                <div class='tiptext' id='addAllowedSitesTipText'>
+                    <p><span translate="yes">Tips</span></p>
+                    <ul class="tips">
+                        <li><span translate="yes">To allow multiple sites, add one per line.</span>
+                        <li><span translate="yes">You may use asterisk as wildcard in any part of URL</span>
+                        <li><span translate="yes">Preceding http:// can be ommited if you don't want to be protocol specific.</span>
+                        <li><span translate="yes">The order of the sites you added does not matter.</span>
+                    </ul>
+                    <p><span translate="yes">Examples</span></p>
+                    <ul class="examples">
+                        <li><span translate="yes">*.foo.com matches any subdomain of "foo.com", such as finance.foo.com or news.foo.com</span>
+                        <li><span translate="yes">foo*.com matches any site that starts with "foo" and ends with ".com", such as foobar.com or foo.xyz.com</span>
+                        <li><span translate="yes">foo.*.com matches any site that starts with "foo." and ends with ".com", such as foo.com or foo.xyz.com but it doesn't match foobar.com</span>
+                        <li><span translate="yes">foo.com/path matches any url under "foo.com/path", such as foo.com/path, foo.com/path/xyz, but it doesn't match foo.com/pathxyz.</span>
+                        <li><span translate="yes">https://foo.com matches any url under HTTPS site foo.com</span>
+                        <li><span translate="yes">*/search?q=cache: matches any url that has path "search" and query string starting with "q=cache:". It effectively matches Google cache URLs.</span>
+                    </ul>
+                </div>
+                <textarea id="allowednewsites" cols="100" rows="4" wrap="off"></textarea><br />
+                <input type="button" id="addAllowedSitesButton" name="addAllowedSites" value="Add Allowed Site(s)"/>
+                <p class="errors" id="allowedsites_error"></p>
+            </div>
+            <div class="timeAllowed">
+                <h3><span translate="yes">Time Allowed - Global Quota</span></h3>
+                <p><span translate="yes">Set the maximum amount of time per day that you will be allowed to browse sites on the block list. To customize time allowed on per-site basis go to Block List page.</span></p>
+                <p><select id="enableTimeRange">
+                    <option value="timeRangeIsDisabled">No Time Ranges</option>
+                    <option value="timeRangeIsEnabled">Use Time Ranges</option>
+                </select></p> 
+                <div class="timeRanges">
+                    <span translate="yes">Define Work Hours:</span>
+                    <span class="errors" id="timeRangeErrors"></span>
+                    <ol id="rangeDefinitions" class='timeRangeList'>
+                    </ol>
+                    <ul class='timeRangeList'>
+                        <li><input type="button" id="addTimeRange" value="Add Another Time Range"/></li>
+                    </ul>
+                    <span translate="yes">Time Allowed Per Day:</span>
+                    <span class="errors" id="timeAllowedErrors"></span>
+                    <ul>
+                        <li><span translate="yes">Within Work Hours</span> <input type="text" class='allowtime allowtimeWithRange' id="allowtime1" size="4" /> <span translate="yes">minutes</span></li>
+                        <li><span translate="yes">Outside Work Hours</span> <input type="text" class='allowtime allowtimeWithRange' id="allowtime2" size="4" / ><span translate="yes">minutes</span></li>
+                    </ul>
+                </div>
+
+                <div class="noTimeRanges">
+                    <span translate="yes">Time Allowed Per Day:</span>
+                    <blockquote>
+                        <input type="text" class='allowtime allowtimeWithoutRange' id="allowtime0" size="4" /> <span translate="yes">minutes</span>
+                    </blockquote>
+                </div>
+                <p><span translate="yes">Days that this extension is active:</span></p>
+                <ul id="activedays">
+                    <li class="checkAll" id="activedaysall">
+                    <a href="#" id="selectAllBtn"><span translate="yes">Select all</span></a>
+                    <a href="#" id="unselectAllBtn"><span translate="yes">Unselect all</span></a>
+                    </li>
+                </ul>
+            </div>
+            <div class='advanced'>
+                <h3><span translate="yes">Advanced Settings</span></h3>
+                <h4><span translate="yes">Enable In Private Browsing</span><br /><span id='google_chrome_incognito_notice'>(Google Chrome: You also need to check Allow in Incognito in <a id="chrome_extension_link" href="#">Extensions</a> page)</span></h4>
+                <blockquote>
+                    <ul>
+                        <li><label><input type="radio" name="enabledForIncognitoOption" value="never" /><span translate="yes">Do not track time used at any web site</span></li>
+                            <li><label><input type="radio" name="enabledForIncognitoOption" value="always" /><span translate="yes">Track time used at any web site as normal</span></li>
+                                <li><label><input type="radio" name="enabledForIncognitoOption" value="blockOnly" /><span translate="yes">Track only time used at web sites on Block List</span></li>
+                                </ul>
+                            </blockquote>
+                            <h4><span translate="yes">Idle detection</span></h4>
+                            <blockquote>
+                                <p> 1 <span translate="yes">min</span> <input id="idleTimeoutSlider" type="range" min="1" max="480" value="30" /> 8 <span translate="yes">hours</span>
+                                <p><span translate="yes">Stop timers when the browser has been idle for</span> <span class="timeDisplay" id="idleTimeoutValue"></span> <span translate="yes">minute(s).</span></p></li>
+                            </blockquote>
+                            <h4><span translate="yes">Block Landing Page</span></h4>
+                            <blockquote>
+                                <p><span translate="yes">When a site is blocked</span>,</p>
+                                <ul>
+                                    <li><label><input type="radio" name="blockurlOption" value="blockurlUseDefault" id="blockurlUseDefaultBtn"/><span translate="yes">Use default block page</span></label><br />
+                                    <li><label><input type="radio" name="blockurlOption" value="blockurlUseCustom" id="blockurlUseCustomBtn"/><span translate="yes">Redirect to a URL, e.g. http://www.google.com/</span><br /> <input type="text" id="blockurl" size="80" />
+                                    </label>
+                                    <br /><span translate="yes">Note: This redirect URL itself becomes reserved and can't be blocked.</span>
+                                </ul>
+                            </blockquote>
+                            <h4><span translate="yes">Warning Message</span></h4>
+                            <blockquote>
+                                <p><span translate="yes">Display a warning message</span> <input type="text" id="warnAtMinutes" size="2" MAXLENGTH="3"/> <span translate="yes">minutes before a site is to be blocked.</span></p>
+                            </blockquote>
+                        </div>
+            <div class='challenge'>
+                <h3><span translate="yes">Challenge</span></h3>
+                <p><span translate="yes">When you are blocked by the time quota you set, you will likely be tempted to add more time or remove a blocked site. This option helps you fight against that urge :-)</span></p>
+                <p><span translate="yes">When you attempt to edit settings next time,</span></p>
+                <ul>
+                    <li><label><input type="radio" name="enableChallenge" value="noChallenge" /><span translate="yes">Do not ask for a challenge</span></label>
+                    <li><label><input type="radio" name="enableChallenge" value="randomChallenge" /><span translate="yes">Ask for typing a randomly generated string</span></label>
+                    <li><label><input type="radio" name="enableChallenge" value="passwordChallenge" /><span translate="yes">Ask for typing a password</span><br />
+                        <table id="editPassword">
+                            <tr><td><span translate="yes">Choose a password:</span></td><td><input type="password" id="password1" size="24" MAXLENGTH=32/> (<span translate="yes">Max 32 characters</span>)</td></tr>
+                            <tr><td><span translate="yes">Repeat the password:</span></td><td> <input type="password" id="password2" size="24" MAXLENGTH=32/></td></tr>
+                            <tr><td></td><td><span class="errors" id="passwordError"></span</td></tr>
+                            </table>
+                        </label>
+                    </ul>
+                </div>
+                <div class='importnexport'>
+                    <h3><span translate="yes">Import or Export Settings</span></h3>
+                    <h4><span translate="yes">Import Settings</span></h4>
+                    <p><span translate="yes">Import settings from a file. The settings file needs to be previously exported from WasteNoTime. The imported settings won't take effect until you click "Apply Settings" button.</span></p>
+                    <ul>
+                        <form id="importform" action="http://www.bumblebeesystems.com/safari-extz/import.php" method="post" enctype="multipart/form-data">
+                            <li><span translate="yes">Select a file to import:</span>
+                            <input type="file" id="importFileName" name="importdata" size="20"/>
+                            <input type="submit" class="submit" id="importSettingsSubmit" value="Import Settings"/>
+                            <input type="hidden" id="extensionid" name="extensionid" />
+                            </li>
+                            <li><span class="errors" id="importStatus"></span></li>
+                        </form>
+                    </ul>
+                    <h4><span translate="yes">Export Settings</span></h4>
+                    <p><span translate="yes">Export current settings to a file. Any pending changes are not included. The file is saved in Downloads folder by browser. It can be copied to other machines and used by multiple browsers.</span></p>
+                    <ul>
+                        <li><form id="exportform" action="http://www.bumblebeesystems.com/safari-extz/export-v2.php" method="post"><input type="hidden" id="exportdata" name="exportdata" /><input class="submit" type="submit" value="Export Current Settings ..." /></form></li>
+                    </ul>
+                </div>
+            </div><!--vtab-->
+            <div class="settingsPanel" align="right">
+                <span id='messageWhenSaving' class='errors'></span>
+                <input type="button" id="cancel" value="Cancel"/>
+                <input type="button" id="saveSettings" value="Apply Settings"/>
+            </div>
+            <hr />
+            <div class="footer">
+                <table>
+                    <tr>
+                        <td>&#169;2020 <a href="http://www.bumblebeesystems.com">Bumblebee Systems</a></td>
+                    </tr>
+                </table>
+            </div>
+        </body>
+    </html>

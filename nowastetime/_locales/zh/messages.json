@@ -1,0 +1,13 @@
+{
+    "AddEntireSite": {"message": "添加整个站点"},
+    "AddSite": {"message": "添加站点..."},
+    "Add_Entire_Site_to_Block_List": {"message": "添加整个站点到黑名单"},
+    "Add_Site_to_Block_List": {"message": "添加站点到黑名单..."},
+    "Add_the_entire_site_to_the_Block_List": {"message": "添加整个站点到黑名单："},
+    "Add_the_following_site_to_Block_List": {"message": "添加该网站到黑名单："},
+    "Always_Block": {"message": "总是阻止"},
+    "Not_Blocked": {"message": "没有被阻止"},
+    "On_Allow_List": {"message": "在白名单中"},
+    "On_Block_List": {"message": "在黑名单中"},
+    "WasteNoTime_Settings": {"message": "设置WasteNoTime..."}
+}

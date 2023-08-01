@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" type="text/css" href="styles/settings.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/timePicker.css"/>
+        <link rel="stylesheet" type="text/css" href="styles/jqModal.css"/>
+        <script src="scripts/jquery-1.7.1.min.js"></script>
+        <script src="scripts/jquery.timePicker.js"></script>
+        <script src="scripts/jqModal.js"></script>
+        <script src="scripts/extension.js"></script>
+        <script src="scripts/settings.js"></script>
+        <script src="scripts/utils.js"></script>
+        <script src="scripts/l16n.js"></script>
+        <script src="scripts/highcharts.js"></script>
+        <script src="scripts/view.js"></script>
+        <title>WasteNoTime - View Settings</title>
+    </head>
+    <body>
+        <h2 class='title'>WasteNoTime</h2>
+        <div class="links">
+            <span><a href="http://www.bumblebeesystems.com/wastenotime/#faq"><span translate="yes">Help/FAQ</span></a></span>
+        </div>
+        <h2 class='subtitle'><span translate="yes">View Settings</span></h2>
+        <div class='settingsName hidden'>
+            <span translate="yes">Blocklist Name</span>: <span id="name" size="40"></span>
+        </div>
+        <!-- Dialog needs to be at top level -->
+        <div class="jqmWindow" id="mydialog">
+            <p>WasteNoTime - <span translate="yes">Challenge</span></p>
+            <br />
+            <div class='challengePrompt' id='passwordChallenge'>
+                <p>To access Edit Settings page, you need to type the password:</p>
+                <ul>
+                    <li><input type="password" id="password" size="30" MAXLENGTH=32 />
+                    <li><span class="errors" id="challengeError1"></span>
+                </ul>
+            </div>
+            <div class='challengePrompt' id='randomChallenge'>
+                <p>To access Edit Settings page, you need to type the following text exactly as it is:</p>
+                <p id='scrabbledText'></p>
+                <ul>
+                    <li><input type="text" id="challengeText" size="42" />
+                    <li><span class="errors" id="challengeError2"></span>
+                </ul>
+            </div>
+            <div id="dialogButtons" align="right">
+                <input type="button" id="dialogCancelButton" value="Cancel" />
+                <input type="button" id="dialogOKButton" value="OK" />
+            </div>
+        </div>
+        <hr align="left"/>
+        <div id="vtab">
+            <ul>
+                <li class="timeTracker" href="#timeTracker"><span translate="yes">Time Tracker</span></li>
+                <li class="lockdown" href="#blockedSites"><span translate="yes">Instant Lockdown</span></li>
+                <li class="blockedSites" href="#blockedSites"><span translate="yes">Block List</span></li>
+                <li class="allowedSites" href="#allowedSites"><span translate="yes">Allow List</span></li>
+                <li class="timeAllowed" href="#timeAllowed"><span translate="yes">Time Allowed</span></li>
+                <li class="advanced" href="#advanced"><span translate="yes">Advanced Settings</span></li>
+                <li class="timeRemaining" href="#timeAllowed"><span translate="yes">Time Remaining</span></li>
+            </ul>
+            <div class="timeTracker">
+                <h3><span translate="yes">Time Tracker</span></h3>
+                <div id="topSites" style="width: 620px; height: 400px; margin: 0 auto"></div>
+                <div id="totalTime" style="margin: 5px">You spent total <span id='hoursInTotal'></span> hours and <span id='minutesInTotal'></span> minutes <span id='timeFrame'></span></div>
+                <ul class='chartButtons'>
+                    <li><span id='chartButtonDay' class='chartButton'><span translate="yes">Day</span></span>
+                    <li><span id='chartButtonWeek' class='chartButton'><span translate="yes">Week</span></span>
+                    <li><span id='chartButtonMonth' class='chartButton'><span translate="yes">Month</span></span>
+                </ul>
+            </div>
+            <div class="lockdown">
+                <h3><span translate="yes">Instant Lockdown</span></h3>
+                <p><span translate="yes">Block sites immediately, independent of your Time Allowed settings.</span></p>
+                <p><strong><span translate="yes">IMPORTANT: Once you activate this, there is no way to cancel it. You have to wait for the Lockdown peroid to expire. If you choose to block All Sites, you will have no access to any site including your web mail, search engine etc during Lockdown.</span></strong></p>
+                <blockquote>
+                    <p><span translate="yes">Block What?</span></p>
+                    <ul class='lockdown'>
+                        <li><label><input type="radio" class="lockdown" name="lockdownOption" value="blockAll" /><span translate="yes">All Sites</span></label>
+                        <li><label><input type="radio" class="lockdown" name="lockdownOption" value="blockAllExceptAllowed" checked="true"/><span translate="yes">All Sites except those on Allow List</span></label>
+                        <li><label><input type="radio" class="lockdown" name="lockdownOption" value="blockBlockedExceptAllowed" /><span translate="yes">Sites on Block List</span></label>
+                    </ul>
+                    <p><span translate="yes">For how long?</span></p>
+                    <ul class='lockdown'>
+                        <li><label><input type="radio" class="lockdown" name="lockdownTimeOption" value="minutes" checked="true"/>
+                            <input type="text" class="lockdown" id="lockdownHowLong" value="60" size="5" maxlength="4"/><span translate="yes">minutes</span></label> <span class="errors" id="lockdownMinutesError"></span><br />
+                        <li><label><input type="radio" class="lockdown" name="lockdownTimeOption" value="until" id='lockdownUseUntil'/>
+                            <span translate="yes">Until </span> <input type='text' id='lockdownUntilTime' size="9" class='lockdown timeSelection' value="" /></span></label> <span class="errors" id="lockdownUntilError"></span>
+                    </ul>
+                        <input type="button" class="lockdown" id="startLockdown" value="Start Lockdown..."/>
+                    </p>
+                </blockquote>
+            </div>
+            <div class='blockedSites'>
+                <h3><span translate="yes">Block List</span></h3>
+                <p><span translate="yes">Web sites that are to be blocked.</span></p>
+                <ul class="siteList siteListView" id="blockedsites"></ul>
+            </div>
+            <div class='allowedSites'>
+                <h3><span translate="yes">Allow List</span></h3>
+                <p><span translate="yes">Web sites that should be allowed regardless of the settings of Block List and Time Allowed.</span></p>
+                <ul class="siteList siteListView" id="allowedsites"></ul>
+            </div>
+            <div class='timeAllowed'>
+                <h3><span translate="yes">Time Allowed - Global Quota</span></h3>
+                <p><span translate="yes">The maximum amount of time per day that you will be allowed to browse sites on the block list.</span></p>
+                <div class="allowtime timeRanges">
+                    <span translate="yes">Time Ranges Defined as Work Hours:</span>
+                    <b>
+                        <ol id="rangeDefinitions">
+                        </ol>
+                    </b>
+                    <span translate="yes">Time Allowed Per Day:</span>
+                    <p>
+                    <ul>
+                        <li><span translate="yes">Within Work Hours:</span> <span id="allowtime1" class="timeDisplay"></span> <span translate="yes">minutes</span>
+                        <li><span translate="yes">Outside Work Hours:</span> <span id="allowtime2" class="timeDisplay"></span> <span translate="yes">minutes</span>
+                    </ul>
+                    </p>
+                </div>
+                <div class="allowtime noTimeRanges">
+                    <span translate="yes">Time Allowed Per Day:</span>
+                    <blockquote>
+                        <span id="allowtime0" class="timeDisplay"></span> <span translate="yes">minutes</span>
+                    </blockquote>
+                </div>
+                <p><span translate="yes">Days that this extension is active:</span>
+                <strong><blockquote><span id="activeDaysValue"></span></blockquote></strong>
+            </div>
+            <div class="advanced">
+                <h3><span translate="yes">Advanced Settings</span></h3>
+                <h4><span translate="yes">Enable In Private Browsing</span><br /><span id='google_chrome_incognito_notice'>(Google Chrome: You also need to check Allow in Incognito in <a id="chrome_extension_link" href="#">Extensions</a> page)</span></h4>
+                <blockquote><span id="enabledForPrivateBrowsingOption"></span></blockquote>
+                <h4><span translate="yes">Idle detection</span></h4>
+                <blockquote><span translate="yes">Stop timers when the browser has been idle for</span> <span class="timeDisplay" id="idleTimeout"></span> <span translate="yes">minute(s).</span></blockquote>
+                <h4><span translate="yes">Block Landing Page</span></h4>
+                <blockquote>
+                    <span translate="yes">When a site is blocked,</span> <strong><span id="blockurl"></span></strong>.
+                </blockquote>
+                <h4><span translate="yes">Warning Message</span></h4>
+                <blockquote>
+                    <span translate="yes">Display a warning message</span> <strong><span id="warnAtMinutes"></span></strong> <span translate="yes">minutes before a site is to be blocked.</span>
+                </blockquote>
+            </div>
+            <div class="timeRemaining">
+                <h3><span translate="yes">Time Remaining</span></h3>
+                <p><span translate="yes">How much time do you have remaining to access blocked sites?</span></p>
+                <div class="status timeRanges">
+                    <ul>
+                        <li><span translate="yes">Within Work Hours</span><span id="workHourIndicator"></span>: <span class="timeDisplay" id="remainingtime1"></span></li>
+                        <li><span translate="yes">Outside Work Hours</span><span id="afterHourIndicator"></span>: <span class="timeDisplay" id="remainingtime2"></span></li>
+                    </ul>
+                    <ul>
+                        <li><img src='arrow.gif' title='Current time' /> <span id="currentTime"></span></li>
+                    </ul>
+                </div>
+                <div class="status noTimeRanges">
+                    <ul>
+                        <li><span class="timeDisplay" id="remainingtime0"></span>
+                    </ul>
+                </div>
+                <div class="status inLockdown">
+                    <ul>
+                        <li><span translate="yes">In Lockdown until</span></li>
+                        <li><span class="timeDisplay" id="lockdownUntil"></span></li>
+                    </ul>
+                </div>
+            </div>
+        </div><!--vtab-->
+        <div class="settingsPanel" align='right' valign='bottom'>
+            <span id='challengeEnabled' ><span translate="yes">Challenge status</span></span>
+            <input type="button" id="editSettings" value="Edit Settings"/>
+        </div>
+        <hr width="798"/>
+        <div class="footer">
+            <table>
+                <tr>
+                    <td>&#169;2020 <a href="http://www.bumblebeesystems.com">Bumblebee Systems</a></td>
+                </tr>
+            </table>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <style>
+        .footer {
+            font-size:0.8em;
+            font-family: Verdana, Arial, sans-serif;
+            text-align:center;
+        }
+
+        .footer a{
+            text-decoration: none;
+        }
+        .quote *{
+            font-style:oblique;
+            font-family:Book Antiqua;
+            font-size:1.2em;
+        }
+
+        .quote {
+            max-width: 500px;
+            margin:auto;
+        }
+
+        * {
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0 auto;
+            margin-top: 25px;
+            max-width:800px;
+            font-size:1.2em;
+        }
+
+        h1 {
+            font-size:3em;
+        }
+
+        .blockMessage {
+                min-height: 350px;
+        }
+
+        #blockedURL {
+            font-weight:bold;
+        }
+
+        form {
+            width: 150px;
+            margin-left: auto ;
+            margin-right: auto ;
+        }
+
+        .fb-share-button span, 
+          .fb-share-button iframe {
+            width: 120px! important;
+            height: 25px! important;
+        }
+    </style>
+
+    <script src="../../scripts/jquery-1.5.2.min.js"></script>
+    <script src="../../scripts/quotes.js"></script>
+    <script src="../../scripts/block.js"></script>
+    <title>WasteNoTime - Default Block Landing Page</title>
+  </head>
+  <body>
+      <div id="fb-root"></div>
+      <h1 align="center">Shouldn’t you be working?</h1>
+      <div class="blockMessage">
+          <div id="quote" class="quote">
+          </div>
+          <p>You are trying to access this web site and it is blocked because you have already spent maximum time allowed for it.</p>
+              <blockquote id="blockedURL"></blockquote>
+          <p>If you find WasteNoTime browser extension useful to you, please donate $10 to support the ongoing development work.
+              <div class="fb-share-button" data-href="https://www.facebook.com/browser.extension.wastenotime" data-layout="button_count"></div>
+          </p>
+          <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+              <input type="hidden" name="cmd" value="_s-xclick">
+              <input type="hidden" name="hosted_button_id" value="5BRC2VYH6DQS6">
+              <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+              <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+          </form>
+      </div>
+      <hr />
+      <div class="footer">
+          <span>&#169;2020 <a href="http://www.bumblebeesystems.com">Bumblebee Systems</a></span>
+      </div>
+  </body>
+</html>

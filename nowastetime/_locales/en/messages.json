@@ -1,0 +1,13 @@
+{
+    "AddEntireSite": {"message": "Add Entire Site"},
+    "AddSite": {"message": "Add Site..."},
+    "Add_Entire_Site_to_Block_List": {"message": "Add Entire Site to Block List"},
+    "Add_Site_to_Block_List": {"message": "Add Site to Block List..."},
+    "Add_the_entire_site_to_the_Block_List": {"message": "Add the entire site to the Block List:"},
+    "Add_the_following_site_to_Block_List": {"message": "Add the following site to the Block List:"},
+    "Always_Block": {"message": "Always Block"},
+    "Not_Blocked": {"message": "Not Blocked"},
+    "On_Allow_List": {"message": "On Allow List"},
+    "On_Block_List": {"message": "On Block List"},
+    "WasteNoTime_Settings": {"message": "WasteNoTime Settings..."}
+}
